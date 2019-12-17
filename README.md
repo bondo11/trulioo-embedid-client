@@ -1,0 +1,1 @@
+JavaScript library which streamlines integration with the Trulioo EmbedID Suite
