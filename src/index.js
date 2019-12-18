@@ -1,16 +1,26 @@
 /*! trulioo-js  */
+import TruliooClient from './truliooClient.js';
+
+const truliooClient = new TruliooClient(
+    "PQoy64YSbLQR25aJ",
+    "http://localhost:3222/generateAccessToken"
+);
+
 window.addEventListener("DOMContentLoaded", function () {
+    const embedIDBackendURL = "http://localhost:8855/embedid/";
     const element = document.createElement('iframe');
     element.setAttribute('id', 'embedid-module');
-    element.setAttribute('src', "http://localhost:8855/embedid/PQoy64YSbLQR25aJ");
+    element.setAttribute('src', `${embedIDBackendURL}${truliooClient.publicKey}`);
     document.getElementById('trulioo-embedid').appendChild(element);
 
     window.addEventListener('message', async (e) => {
-        if (e.origin === 'http://localhost:8855') {
-            const response = await axios.get('http://localhost:3222/generateAccessToken');
+        const originURL = 'http://localhost:8855'; //embedID BE URL
+        if (e.origin === originURL) {
+            const response = await fetch(`${truliooClient.accessTokenGeneratorURL}`);
             const accessToken = JSON.parse(response.data.AccessToken);
             //console.log('Sending Access Access Token fron client to EmbedID-BE:', accessToken);
             //e.source.postMessage(`Ihackedyou;D`, '*');
+            //TODO change
             e.source.postMessage(`${accessToken}`, '*');
         }
     });
@@ -19,5 +29,4 @@ window.addEventListener("DOMContentLoaded", function () {
     embedIDModule.style.width = "100%";
     embedIDModule.style.height = "100%";
     embedIDModule.border = "none";
-
 }, false);
