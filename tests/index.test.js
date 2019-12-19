@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import TruliooClient from '../src/truliooClient';
+import TruliooClient from '../src/TruliooClient';
 
 test('TruliooClient is instantiated', async () => {
     const publicKey = 'ExamplePublicKey';

@@ -1,4 +1,4 @@
-class TruliooClient {
+export default class TruliooClient {
 
     constructor(config) {
         const { publicKey, accessTokenGeneratorURL } = config;
@@ -6,5 +6,3 @@ class TruliooClient {
         this.accessTokenGeneratorURL = accessTokenGeneratorURL;
     }
 }
-
-export default TruliooClient;
