@@ -1,10 +1,10 @@
 /*! trulioo-js  */
 import TruliooClient from './truliooClient.js';
 
-const truliooClient = new TruliooClient(
-    "PQoy64YSbLQR25aJ",
-    "http://localhost:3222/generateAccessToken"
-);
+// const truliooClient = new TruliooClient(
+//     "PQoy64YSbLQR25aJ",
+//     "http://localhost:3222/generateAccessToken"
+// );
 
 window.addEventListener("DOMContentLoaded", function () {
     const embedIDBackendURL = "http://localhost:8855/embedid/";
@@ -30,3 +30,5 @@ window.addEventListener("DOMContentLoaded", function () {
     embedIDModule.style.height = "100%";
     embedIDModule.border = "none";
 }, false);
+
+window.TruliooClient = new TruliooClient();
