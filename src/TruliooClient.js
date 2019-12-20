@@ -1,7 +1,7 @@
 export default class TruliooClient {
 
-    constructor(config) {
-        const { publicKey, accessTokenGeneratorURL } = config;
+    constructor(publicKey, accessTokenGeneratorURL) {
+        console.log('mpika!', publicKey, accessTokenGeneratorURL)
         this.publicKey = publicKey;
         this.accessTokenGeneratorURL = accessTokenGeneratorURL;
     }

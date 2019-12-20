@@ -1,7 +1,16 @@
 /*! trulioo-js  */
-import TruliooClient from './truliooClient.js';
+import TruliooClient from './TruliooClient.js';
+
+// const truliooClient = new TruliooClient(
+//     "PQoy64YSbLQR25aJ",
+//     "http://localhost:3222/generateAccessToken"
+// );
+ 
+window.truliooClient = new TruliooClient();
+window.TruliooClient = TruliooClient;
 
 window.addEventListener("DOMContentLoaded", function () {
+    console.log('CURRENT VALUES:', truliooClient)
     const embedIDBackendURL = "http://localhost:8855/embedid/";
     const element = document.createElement('iframe');
     element.setAttribute('id', 'embedid-module');
@@ -25,5 +34,3 @@ window.addEventListener("DOMContentLoaded", function () {
     embedIDModule.style.height = "100%";
     embedIDModule.border = "none";
 }, false);
-
-window.TruliooClient = new TruliooClient();
