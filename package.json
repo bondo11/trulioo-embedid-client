@@ -6,7 +6,6 @@
   "scripts": {
     "release": "release-it",
     "webpack-release": "webpack --config webpack.config.js",
-    "semantic-release": "semantic-release",
     "test": "jest"
   },
   "repository": {
@@ -43,8 +42,7 @@
   },
   "dependencies": {
     "babel-eslint": "^10.0.3",
-    "eslint-config-airbnb": "^18.0.1",
-    "semantic-release": "^15.13.31"
+    "eslint-config-airbnb": "^18.0.1"
   },
   "config": {
     "commitizen": {
