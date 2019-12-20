@@ -4,7 +4,8 @@
   "description": "JavaScript library which streamlines integration with Trulioo",
   "main": "index.js",
   "scripts": {
-    "release": "webpack --config webpack.config.js",
+    "release": "release-it",
+    "webpack-release": "webpack --config webpack.config.js",
     "semantic-release": "semantic-release",
     "test": "jest"
   },
@@ -37,7 +38,8 @@
     "babel-loader": "^8.0.6",
     "cz-conventional-changelog": "^3.0.2",
     "eslint-loader": "^3.0.3",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "release-it": "^12.4.3"
   },
   "dependencies": {
     "babel-eslint": "^10.0.3",
