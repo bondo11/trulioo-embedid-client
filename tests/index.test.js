@@ -7,4 +7,4 @@ test('TruliooClient is instantiated', async () => {
     const truliooClient = new TruliooClient(publicKey, accessTokenGeneratorURL);
     expect(truliooClient.publicKey).toBe(publicKey);
     expect(truliooClient.accessTokenGeneratorURL).toBe(accessTokenGeneratorURL);
-})
+}) 
