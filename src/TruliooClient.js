@@ -1,9 +1,9 @@
 export default class TruliooClient {
 
-    constructor(publicKey, accessTokenGeneratorURL) {
-        console.log('Check!', publicKey, accessTokenGeneratorURL)
-        this.publicKey = publicKey;
-        this.accessTokenGeneratorURL = accessTokenGeneratorURL;
+    constructor(obj) {
+        for (var fld in obj) {
+            this[fld] = obj[fld];
+        }
         this.loadEmbedID();
     }
 
@@ -12,7 +12,10 @@ export default class TruliooClient {
         const element = document.createElement('iframe');
         element.setAttribute('id', 'embedid-module');
         element.setAttribute('src', `${embedIDBackendURL}${this.publicKey}`);
-        document.getElementById('trulioo-embedid').appendChild(element);
+        const truliooEmbedIDContainer = document.getElementById('trulioo-embedid')
+        truliooEmbedIDContainer.appendChild(element);
+        truliooEmbedIDContainer.style.paddingTop = "100%";
+        truliooEmbedIDContainer.style.position = "relative";
 
         window.addEventListener('message', async (e) => {
             const originURL = 'http://localhost:8855'; //embedID BE URL
@@ -27,8 +30,11 @@ export default class TruliooClient {
         });
 
         const embedIDModule = document.getElementById("embedid-module");
-        embedIDModule.style.width = "100%";
-        embedIDModule.style.height = "100%";
-        embedIDModule.border = "none";
+        embedIDModule.style.border = '0';
+        embedIDModule.style.height = '100%';
+        embedIDModule.style.left = '0';
+        embedIDModule.style.position = 'absolute';
+        embedIDModule.style.top = '0';
+        embedIDModule.style.width = '100%';
     }
 }
