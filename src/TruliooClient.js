@@ -16,15 +16,15 @@ export default class TruliooClient {
         truliooEmbedIDContainer.appendChild(element);
         truliooEmbedIDContainer.style.paddingTop = "100%";
         truliooEmbedIDContainer.style.position = "relative";
-
         window.addEventListener('message', async (e) => {
-            const originURL = 'http://localhost:8855'; //embedID BE URL
-            if (e.origin === originURL) {
-                const response = await fetch(`${this.accessTokenGeneratorURL}`);
-                const accessToken = JSON.parse(response.data.AccessToken);
-                //console.log('Sending Access Access Token fron client to EmbedID-BE:', accessToken);
-                //e.source.postMessage(`Ihackedyou;D`, '*');
-                //TODO change
+            const expectedEmbedIDBEURL = 'http://localhost:8855';
+            const originURL = 'http://localhost:3010/trulioo-api/embedids/tokens'; //embedid-be-sdk
+            if (e.origin === expectedEmbedIDBEURL) {
+                const response = await fetch(originURL, {
+                    method: 'POST'
+                });
+                const deconstructedResult = await response.json();
+                const accessToken = deconstructedResult.accessToken;
                 e.source.postMessage(`${accessToken}`, '*');
             }
         });
