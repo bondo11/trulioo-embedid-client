@@ -9,7 +9,7 @@ export default class TruliooClient {
 
     async init() {
         await this.injectAccessToken();
-        this.loadEmbedID();
+        this.newLoad();
     }
 
     async injectAccessToken() {
@@ -20,6 +20,26 @@ export default class TruliooClient {
         const deconstructedResult = await response.json();
         const accessToken = deconstructedResult.accessToken;
         this['accessToken'] = accessToken;
+    }
+
+    newLoad() {
+        const url = "http://localhost:8855/embedids/";
+
+        fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                "accesstoken": "example123",
+                "publickey": "example123"
+            }
+        }).then((data) => {
+            console.log('DATA', data);
+            const element = document.createElement('iframe');
+            element.setAttribute('id', 'embedid-module');
+            $("#embedid-module").attr('src', "/")
+            $("#output_iframe_id").contents().find('html').html(data);
+        }).catch((error) => {
+            console.log('e', error)
+        });
     }
 
     loadEmbedID() {
