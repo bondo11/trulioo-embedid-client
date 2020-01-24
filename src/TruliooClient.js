@@ -13,7 +13,7 @@ export default class TruliooClient {
     }
 
     async injectAccessToken() {
-        const originURL = 'http://localhost:3010/trulioo-api/embedids/tokens'; //embedid-be-sdk
+        const originURL = `${accessTokenURL}/${this.publicKey}`;
         const response = await fetch(originURL, {
             method: 'POST'
         });
@@ -23,15 +23,19 @@ export default class TruliooClient {
     }
 
     loadEmbedID() {
-        const embedIDBackendURL = "http://localhost:8855/embedid/";
-        const url = `${embedIDBackendURL}${this.publicKey}/at/${this.accessToken}`;
+        const embedIDBackendURL = !this.embedIDUrl ? "http://localhost:8855/embedid" : this.embedIDUrl;
+        const url = `${embedIDBackendURL}/${this.publicKey}/at/${this.accessToken}`;
         const element = document.createElement('iframe');
         element.setAttribute('id', 'embedid-module');
         element.setAttribute('src', url);
-        const truliooEmbedIDContainer = document.getElementById('trulioo-embedid')
+        const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
         truliooEmbedIDContainer.appendChild(element);
+
+        // styling of the container
         truliooEmbedIDContainer.style.paddingTop = "100%";
         truliooEmbedIDContainer.style.position = "relative";
+
+        // TODO update code
         window.addEventListener('message', async (e) => {
             const expectedEmbedIDBEURL = 'http://localhost:8855';
             const originURL = 'http://localhost:3010/trulioo-api/embedids/tokens'; //embedid-be-sdk
@@ -45,6 +49,7 @@ export default class TruliooClient {
             }
         });
 
+        // styling of the iframe
         const embedIDModule = document.getElementById("embedid-module");
         embedIDModule.style.border = '0';
         embedIDModule.style.height = '100%';
