@@ -35,19 +35,19 @@ export default class TruliooClient {
         truliooEmbedIDContainer.style.paddingTop = "100%";
         truliooEmbedIDContainer.style.position = "relative";
 
-        // TODO update code
-        window.addEventListener('message', async (e) => {
-            const expectedEmbedIDBEURL = 'http://localhost:8855';
-            const originURL = 'http://localhost:3010/trulioo-api/embedids/tokens'; //embedid-be-sdk
-            if (e.origin === expectedEmbedIDBEURL) {
-                const response = await fetch(originURL, {
-                    method: 'POST'
-                });
-                const deconstructedResult = await response.json();
-                const accessToken = deconstructedResult.accessToken;
-                e.source.postMessage(`${accessToken}`, '*');
-            }
-        });
+        // TODO update code v2check
+        // window.addEventListener('message', async (e) => {
+        //     const expectedEmbedIDBEURL = 'http://localhost:8855';
+        //     const originURL = 'http://localhost:3010/trulioo-api/embedids/tokens'; //embedid-be-sdk
+        //     if (e.origin === expectedEmbedIDBEURL) {
+        //         const response = await fetch(originURL, {
+        //             method: 'POST'
+        //         });
+        //         const deconstructedResult = await response.json();
+        //         const accessToken = deconstructedResult.accessToken;
+        //         e.source.postMessage(`${accessToken}`, '*');
+        //     }
+        // });
 
         // styling of the iframe
         const embedIDModule = document.getElementById("embedid-module");
