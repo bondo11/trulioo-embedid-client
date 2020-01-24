@@ -13,7 +13,7 @@ export default class TruliooClient {
     }
 
     async injectAccessToken() {
-        const originURL = `${accessTokenURL}/${this.publicKey}`;
+        const originURL = `${this.accessTokenURL}/${this.publicKey}`;
         const response = await fetch(originURL, {
             method: 'POST'
         });
