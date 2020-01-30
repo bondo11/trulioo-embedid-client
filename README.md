@@ -8,4 +8,4 @@ Exposes [TruliooClient](https://github.com/Trulioo/trulioo-embedid-client/blob/m
 
 # How to use
 
-Have a look at [example.html](./example.html) file.
+Have a look at the [example.html](./example.html) file.
