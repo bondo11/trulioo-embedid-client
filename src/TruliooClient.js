@@ -15,7 +15,7 @@ export default class TruliooClient {
             this.registerEvents();
             this.loadEmbedID();
         } catch (error) {
-            console.log('something went wrong during EmbedID form initialization', error);
+            console.error('something went wrong during EmbedID form initialization', error);
         }
     }
 
@@ -44,7 +44,7 @@ export default class TruliooClient {
                     console.log(`Tried to trigger ${data.func} but found no available callBack`);
                 }
             } catch (error) {
-                console.log('Something went wrong during callback registration', error);
+                console.error('Something went wrong during callback registration', error);
             }
         }
     }
@@ -62,7 +62,7 @@ export default class TruliooClient {
             const accessToken = deconstructedResult.accessToken;
             this.accessToken = accessToken;
         } catch (err) {
-            console.log('Something went wrong during access token generation', err);
+            console.error('Something went wrong during access token generation', err);
         }
     }
 
