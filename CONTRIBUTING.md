@@ -10,3 +10,7 @@ new TruliooClient({
     accessTokenURL, // required
 });
 ```
+
+## Bundling
+
+Webpack is used for package bundling; using `npm run webpack-release` will produce a new bundle under `v1/main.js`.
