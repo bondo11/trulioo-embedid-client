@@ -5,7 +5,7 @@ export default class TruliooClient {
         for (var fld in obj) {
             this[fld] = obj[fld];
         }
-        this.embedIDURL = !this.embedIDURL ? "https://prod-embedid-backend.rnd-trulioo.com/embedid" : this.embedIDURL;
+        this.embedIDURL = this.embedIDURL ? this.embedIDURL : "http://localhost:8855/embedid";
         this.init();
     }
 
