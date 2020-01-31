@@ -1,30 +1,73 @@
 export default class TruliooClient {
 
     constructor(obj) {
+
         for (var fld in obj) {
             this[fld] = obj[fld];
         }
+        this.embedIDURL = this.embedIDURL ? this.embedIDURL : "http://localhost:8855/embedid";
         this.init();
     }
 
     async init() {
-        await this.injectAccessToken();
-        this.loadEmbedID();
+        try {
+            await this.injectAccessToken();
+            this.registerEvents();
+            this.loadEmbedID();
+        } catch (error) {
+            console.error('something went wrong during EmbedID form initialization', error);
+        }
     }
 
+    /**
+    * Registers callbacks.
+    */
+    registerEvents() {
+        const truliooClient = this;
+        if (window && window.addEventListener) {
+            window.addEventListener("message", onMessage, false);
+        }
+
+        function onMessage(event) {
+            try {
+                const eventOriginCompleteURL = `${event && event.origin}/embedid`;
+                // Check sender origin to be trusted
+                if (truliooClient.embedIDURL !== eventOriginCompleteURL) {
+                    return;
+                }
+                var data = event.data;
+
+                // call function
+                if (truliooClient[data.function]) {
+                    truliooClient[data.function].call(window, JSON.parse(data.message));
+                } else {
+                    console.log(`Tried to trigger ${data.func} but found no available callBack`);
+                }
+            } catch (error) {
+                console.error('Something went wrong during callback registration', error);
+            }
+        }
+    }
+
+    /**
+     * Generates the access token and stores it into this.accessToken variable.
+     */
     async injectAccessToken() {
-        const originURL = `${this.accessTokenURL}/${this.publicKey}`;
-        const response = await fetch(originURL, {
-            method: 'POST'
-        });
-        const deconstructedResult = await response.json();
-        const accessToken = deconstructedResult.accessToken;
-        this['accessToken'] = accessToken;
+        try {
+            const originURL = `${this.accessTokenURL}/${this.publicKey}`;
+            const response = await fetch(originURL, {
+                method: 'POST'
+            });
+            const deconstructedResult = await response.json();
+            const accessToken = deconstructedResult.accessToken;
+            this.accessToken = accessToken;
+        } catch (err) {
+            console.error('Something went wrong during access token generation', err);
+        }
     }
 
     loadEmbedID() {
-        const embedIDBackendURL = !this.embedIDUrl ? "http://localhost:8855/embedid" : this.embedIDUrl;
-        const url = `${embedIDBackendURL}/${this.publicKey}/at/${this.accessToken}`;
+        const url = `${embedIDURL}/${this.publicKey}/at/${this.accessToken}`;
         const element = document.createElement('iframe');
         element.setAttribute('id', 'embedid-module');
         element.setAttribute('src', url);
@@ -34,20 +77,6 @@ export default class TruliooClient {
         // styling of the container
         truliooEmbedIDContainer.style.paddingTop = "100%";
         truliooEmbedIDContainer.style.position = "relative";
-
-        // TODO update code v2check
-        // window.addEventListener('message', async (e) => {
-        //     const expectedEmbedIDBEURL = 'http://localhost:8855';
-        //     const originURL = 'http://localhost:3010/trulioo-api/embedids/tokens'; //embedid-be-sdk
-        //     if (e.origin === expectedEmbedIDBEURL) {
-        //         const response = await fetch(originURL, {
-        //             method: 'POST'
-        //         });
-        //         const deconstructedResult = await response.json();
-        //         const accessToken = deconstructedResult.accessToken;
-        //         e.source.postMessage(`${accessToken}`, '*');
-        //     }
-        // });
 
         // styling of the iframe
         const embedIDModule = document.getElementById("embedid-module");

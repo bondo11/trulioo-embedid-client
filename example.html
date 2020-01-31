@@ -7,11 +7,15 @@
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/gh/trulioo/trulioo-embedid-client@master/v1/main.js"></script>
     <script>
-        const publicKey = 'PUBLIC_KEY_GOES_HERE'; // Public Key
-        const accessTokenURL = 'ACCESS_TOKEN_URL_GOES_HERE'; // Access Token URL
+        function handleResponse(e) {
+            console.log('@handleResponse', e);
+        }
+        const publicKey = 'PUT_YOUR_PUBLIC_KEY_HERE'; // Public Key
+        const accessTokenURL = 'PUT_YOUR_ACCESS_TOKEN_URL_HERE'; // Access Token URL
         new TruliooClient({
             publicKey,
-            accessTokenURL
+            accessTokenURL,
+            handleResponse
         });
     </script>
 </body>
