@@ -1,6 +1,6 @@
 {
   "name": "trulioo-embedid-client",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "JavaScript library which streamlines integration with Trulioo",
   "main": "index.js",
   "scripts": {
