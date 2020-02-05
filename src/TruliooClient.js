@@ -5,7 +5,7 @@ export default class TruliooClient {
     }
     this.embedIDURL = this.embedIDURL
       ? this.embedIDURL
-      : 'http://localhost:8855/embedid';
+      : 'https://embedid.trulioo.com/embedid';
     this.init();
   }
 
@@ -74,6 +74,13 @@ export default class TruliooClient {
     }
   }
 
+  addBasicIframeStyles() {
+    const embedIDModule = document.getElementById('embedid-module');
+    embedIDModule.style.border = '0';
+    embedIDModule.style.height = 'calc(100vh - 40px)';
+    embedIDModule.style.width = '100%';
+  }
+
   loadEmbedID() {
     const url = `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`;
     const element = document.createElement('iframe');
@@ -82,10 +89,6 @@ export default class TruliooClient {
     const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
     truliooEmbedIDContainer.appendChild(element);
 
-    // styling of the iframe
-    const embedIDModule = document.getElementById('embedid-module');
-    embedIDModule.style.border = '0';
-    embedIDModule.style.height = 'calc(100vh - 40px)';
-    embedIDModule.style.width = '100%';
+    this.addBasicIframeStyles();
   }
 }
