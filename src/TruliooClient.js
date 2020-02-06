@@ -40,7 +40,6 @@ export default class TruliooClient {
         }
         var data = event.data;
 
-        // call function
         if (truliooClient[data.function]) {
           truliooClient[data.function].call(window, JSON.parse(data.message));
         } else {
@@ -74,11 +73,10 @@ export default class TruliooClient {
     }
   }
 
-  addBasicIframeStyles() {
-    const embedIDModule = document.getElementById('embedid-module');
-    embedIDModule.style.border = '0';
-    embedIDModule.style.height = 'calc(100vh - 40px)';
-    embedIDModule.style.width = '100%';
+  addBasicIframeStyles(iframe) {
+    iframe.style.border = '0';
+    iframe.style.height = 'calc(100vh - 40px)';
+    iframe.style.width = '100%';
   }
 
   loadEmbedID() {
@@ -88,7 +86,8 @@ export default class TruliooClient {
     element.setAttribute('src', url);
     const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
     truliooEmbedIDContainer.appendChild(element);
+    const embedIDModule = document.getElementById('embedid-module');
 
-    this.addBasicIframeStyles();
+    this.addBasicIframeStyles(embedIDModule);
   }
 }
