@@ -6,6 +6,10 @@ export default class TruliooClient {
     this.embedIDURL = this.embedIDURL
       ? this.embedIDURL
       : 'https://embedid.trulioo.com/embedid';
+      this.accessTokenURL = this.accessTokenURL 
+      ? `${this.accessTokenURL}/trulioo-api/embedids/tokens` 
+      : `${window.location.origin}/trulioo-api/embedids/tokens`;
+
     this.init();
   }
 
