@@ -10,6 +10,8 @@ Can be included as a CDN:
 
 JavaScript library which streamlines integration with Trulioo.
 
+# How to use
+
 Exposes [TruliooClient](https://github.com/Trulioo/trulioo-embedid-client/blob/master/src/TruliooClient.js) to load EmbedID.
 
 This SDK works in conjunction with the [Trulioo EmbedId Middleware](https://github.com/Trulioo/trulioo-embedid-middleware).
@@ -26,7 +28,4 @@ new TruliooClient({
     handleResponse
 });
 ```
-
-# How to use
-
 Have a look at the [example.html](./example.html) file.
