@@ -1,10 +1,31 @@
-# trulioo-embedID-client
+# trulioo-embedid-client
 
 [![Github](https://github.com/trulioo/trulioo-embedid-client/workflows/Build/badge.svg)](https://github.com/trulioo/trulioo-embedid-client/workflows/Build/badge.svg)
 
+Can be included as a CDN:
+
+```
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/trulioo/trulioo-embedid-client@0.0.1-beta/v1/main.js"></script>
+```
+
 JavaScript library which streamlines integration with Trulioo.
 
-Exposes [TruliooClient](https://github.com/Trulioo/trulioo-embedid-client/blob/master/src/TruliooClient.js) and a function which loads on "DOMContentLoaded", loading Trulioo EmbedID.
+Exposes [TruliooClient](https://github.com/Trulioo/trulioo-embedid-client/blob/master/src/TruliooClient.js) to load EmbedID.
+
+This SDK works in conjunction with the [Trulioo EmbedId Middleware](https://github.com/Trulioo/trulioo-embedid-middleware).
+
+Instantiate EmbedID through the TruliooClient constructor:
+
+```
+function handleResponse(e) {
+    console.log('@handleResponse', e);
+}
+const publicKey = 'PUT_YOUR_PUBLIC_KEY_HERE'; // Public Key
+new TruliooClient({
+    publicKey,
+    handleResponse
+});
+```
 
 # How to use
 
