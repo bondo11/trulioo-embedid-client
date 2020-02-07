@@ -5,7 +5,7 @@
 Can be included as a CDN:
 
 ```
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/trulioo/trulioo-embedid-client@0.0.1-beta/v1/main.js"></script>
+<script type="text/javascript" src="https://js.trulioo.com/v0.0.1-beta/main.js"></script>
 ```
 
 JavaScript library which streamlines integration with Trulioo.
