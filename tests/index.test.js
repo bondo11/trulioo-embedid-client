@@ -12,7 +12,6 @@ describe("TruliooClient", () => {
 
   describe("instantiate client", () => {
     beforeEach(() => {
-      jest.spyOn(TruliooClient.prototype, "constructor");
       jest.spyOn(TruliooClient.prototype, "init").mockReturnValueOnce();
     });
 
