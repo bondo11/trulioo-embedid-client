@@ -95,6 +95,7 @@ export default class TruliooClient {
     const embedIDModule = document.getElementById("embedid-module");
     this.addBasicIframeStyles(embedIDModule);
   }
+
   errorHandler(error, errorMsg) {
     // replace the div with error component
     console.error(errorMsg, error);

@@ -1,6 +1,6 @@
+import waitForExpect from "wait-for-expect";
 import factory from "./factory";
 import TruliooClient from "../src/TruliooClient";
-import waitForExpect from "wait-for-expect";
 
 describe("TruliooClient", () => {
   let truliooClient;
@@ -9,7 +9,7 @@ describe("TruliooClient", () => {
 
   beforeEach(() => {
     const response = {
-      json: jest.fn().mockReturnValue({
+      json: jest.fn().mockResolvedValue({
         status: 200,
         accessToken: accessToken
       })
