@@ -5,24 +5,16 @@ export default class TruliooClient {
     }
     this.embedIDURL = this.embedIDURL
       ? this.embedIDURL
-      : 'https://embedid.trulioo.com/embedid';
-      this.accessTokenURL = this.accessTokenURL 
-      ? `${this.accessTokenURL}/trulioo-api/embedids/tokens` 
+      : "https://embedid.trulioo.com/embedid";
+    this.accessTokenURL = this.accessTokenURL
+      ? `${this.accessTokenURL}/trulioo-api/embedids/tokens`
       : `${window.location.origin}/trulioo-api/embedids/tokens`;
 
-    this.init();
-  }
-
-  async init() {
     try {
-      await this.injectAccessToken();
       this.registerEvents();
       this.loadEmbedID();
     } catch (error) {
-      console.error(
-        'something went wrong during EmbedID form initialization',
-        error
-      );
+      this.errorHandler(error);
     }
   }
 
@@ -32,7 +24,7 @@ export default class TruliooClient {
   registerEvents() {
     const truliooClient = this;
     if (window && window.addEventListener) {
-      window.addEventListener('message', onMessage, false);
+      window.addEventListener("message", onMessage, false);
     }
 
     function onMessage(event) {
@@ -52,9 +44,9 @@ export default class TruliooClient {
           );
         }
       } catch (error) {
-        console.error(
-          'Something went wrong during callback registration',
-          error
+        this.errorHandler(
+          error,
+          "Something went wrong during callback registration"
         );
       }
     }
@@ -67,31 +59,47 @@ export default class TruliooClient {
     try {
       const originURL = `${this.accessTokenURL}/${this.publicKey}`;
       const response = await fetch(originURL, {
-        method: 'POST'
+        method: "POST"
       });
       const deconstructedResult = await response.json();
       const accessToken = deconstructedResult.accessToken;
       this.accessToken = accessToken;
-    } catch (err) {
-      console.error('Something went wrong during access token generation', err);
+    } catch (error) {
+      this.errorHandler(
+        error,
+        "Something went wrong during access token generation"
+      );
     }
   }
 
   addBasicIframeStyles(iframe) {
-    iframe.style.border = '0';
-    iframe.style.height = 'calc(100vh - 40px)';
-    iframe.style.width = '100%';
+    iframe.style.border = "0";
+    iframe.style.height = "calc(100vh - 40px)";
+    iframe.style.width = "100%";
   }
 
   loadEmbedID() {
-    const url = `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`;
-    const element = document.createElement('iframe');
-    element.setAttribute('id', 'embedid-module');
-    element.setAttribute('src', url);
-    const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
-    truliooEmbedIDContainer.appendChild(element);
-    const embedIDModule = document.getElementById('embedid-module');
-
-    this.addBasicIframeStyles(embedIDModule);
+    const element = document.createElement("iframe");
+    element.setAttribute("id", "embedid-module");
+    this.injectAccessToken()
+      .then(() => {
+        element.setAttribute(
+          "src",
+          `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
+        );
+        const truliooEmbedIDContainer = document.getElementById(
+          "trulioo-embedid"
+        );
+        truliooEmbedIDContainer.appendChild(element);
+        const embedIDModule = document.getElementById("embedid-module");
+        this.addBasicIframeStyles(embedIDModule);
+      })
+      .catch(error => this.errorHandler(error));
+  }
+  errorHandler(error, errorMsg) {
+    // replace the div with error component
+    const errorMessage =
+      errorMsg || "something went wrong during EmbedID form initialization";
+    console.error(errorMessage, error);
   }
 }
