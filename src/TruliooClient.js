@@ -12,9 +12,14 @@ export default class TruliooClient {
 
     try {
       this.registerEvents();
-      this.loadEmbedID();
+      this.injectAccessToken().then(() => {
+        this.loadEmbedID();
+      });
     } catch (error) {
-      this.errorHandler(error);
+      this.errorHandler(
+        error,
+        "something went wrong during EmbedID form initialization"
+      );
     }
   }
 
@@ -81,25 +86,17 @@ export default class TruliooClient {
   loadEmbedID() {
     const element = document.createElement("iframe");
     element.setAttribute("id", "embedid-module");
-    this.injectAccessToken()
-      .then(() => {
-        element.setAttribute(
-          "src",
-          `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
-        );
-        const truliooEmbedIDContainer = document.getElementById(
-          "trulioo-embedid"
-        );
-        truliooEmbedIDContainer.appendChild(element);
-        const embedIDModule = document.getElementById("embedid-module");
-        this.addBasicIframeStyles(embedIDModule);
-      })
-      .catch(error => this.errorHandler(error));
+    element.setAttribute(
+      "src",
+      `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
+    );
+    const truliooEmbedIDContainer = document.getElementById("trulioo-embedid");
+    truliooEmbedIDContainer.appendChild(element);
+    const embedIDModule = document.getElementById("embedid-module");
+    this.addBasicIframeStyles(embedIDModule);
   }
   errorHandler(error, errorMsg) {
     // replace the div with error component
-    const errorMessage =
-      errorMsg || "something went wrong during EmbedID form initialization";
-    console.error(errorMessage, error);
+    console.error(errorMsg, error);
   }
 }
