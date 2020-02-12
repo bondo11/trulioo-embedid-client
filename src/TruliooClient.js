@@ -5,7 +5,7 @@ export default class TruliooClient {
     }
     this.embedIDURL = this.embedIDURL
       ? this.embedIDURL
-      : "https://embedid.trulioo.com/embedid";
+      : 'https://embedid.trulioo.com/embedid';
     this.accessTokenURL = this.accessTokenURL
       ? `${this.accessTokenURL}/trulioo-api/embedids/tokens`
       : `${window.location.origin}/trulioo-api/embedids/tokens`;
@@ -18,7 +18,7 @@ export default class TruliooClient {
     } catch (error) {
       this.errorHandler(
         error,
-        "something went wrong during EmbedID form initialization"
+        'Something went wrong during EmbedID form initialization'
       );
     }
   }
@@ -29,7 +29,7 @@ export default class TruliooClient {
   registerEvents() {
     const truliooClient = this;
     if (window && window.addEventListener) {
-      window.addEventListener("message", onMessage, false);
+      window.addEventListener('message', onMessage, false);
     }
 
     function onMessage(event) {
@@ -51,7 +51,7 @@ export default class TruliooClient {
       } catch (error) {
         this.errorHandler(
           error,
-          "Something went wrong during callback registration"
+          'Something went wrong during callback registration'
         );
       }
     }
@@ -64,7 +64,7 @@ export default class TruliooClient {
     try {
       const originURL = `${this.accessTokenURL}/${this.publicKey}`;
       const response = await fetch(originURL, {
-        method: "POST"
+        method: 'POST'
       });
       const deconstructedResult = await response.json();
       const accessToken = deconstructedResult.accessToken;
@@ -72,32 +72,32 @@ export default class TruliooClient {
     } catch (error) {
       this.errorHandler(
         error,
-        "Something went wrong during access token generation"
+        'Something went wrong during access token generation'
       );
     }
   }
 
   addBasicIframeStyles(iframe) {
-    iframe.style.border = "0";
-    iframe.style.height = "calc(100vh - 40px)";
-    iframe.style.width = "100%";
+    iframe.style.border = '0';
+    iframe.style.height = 'calc(100vh - 40px)';
+    iframe.style.width = '100%';
   }
 
   loadEmbedID() {
-    const element = document.createElement("iframe");
-    element.setAttribute("id", "embedid-module");
+    const element = document.createElement('iframe');
+    element.setAttribute('id', 'embedid-module');
     element.setAttribute(
-      "src",
+      'src',
       `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
     );
-    const truliooEmbedIDContainer = document.getElementById("trulioo-embedid");
+    const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
     truliooEmbedIDContainer.appendChild(element);
-    const embedIDModule = document.getElementById("embedid-module");
+    const embedIDModule = document.getElementById('embedid-module');
     this.addBasicIframeStyles(embedIDModule);
   }
 
   errorHandler(error, errorMsg) {
-    // replace the div with error component
+    // TODO - replace the div with error component
     console.error(errorMsg, error);
   }
 }
