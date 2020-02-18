@@ -1,4 +1,15 @@
+# node_modules #
 node_modules
+
+# env files #
 .env
+
+# example files#
 example-local.html
 demo.html
+
+# editor settings #
+.vscode/
+
+# test output #
+coverage

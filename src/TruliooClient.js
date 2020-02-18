@@ -6,22 +6,19 @@ export default class TruliooClient {
     this.embedIDURL = this.embedIDURL
       ? this.embedIDURL
       : 'https://embedid.trulioo.com/embedid';
-      this.accessTokenURL = this.accessTokenURL 
-      ? `${this.accessTokenURL}/trulioo-api/embedids/tokens` 
+    this.accessTokenURL = this.accessTokenURL
+      ? `${this.accessTokenURL}/trulioo-api/embedids/tokens`
       : `${window.location.origin}/trulioo-api/embedids/tokens`;
 
-    this.init();
-  }
-
-  async init() {
     try {
-      await this.injectAccessToken();
       this.registerEvents();
-      this.loadEmbedID();
+      this.injectAccessToken().then(() => {
+        this.loadEmbedID();
+      });
     } catch (error) {
-      console.error(
-        'something went wrong during EmbedID form initialization',
-        error
+      this.errorHandler(
+        error,
+        'Something went wrong during EmbedID form initialization'
       );
     }
   }
@@ -52,9 +49,9 @@ export default class TruliooClient {
           );
         }
       } catch (error) {
-        console.error(
-          'Something went wrong during callback registration',
-          error
+        this.errorHandler(
+          error,
+          'Something went wrong during callback registration'
         );
       }
     }
@@ -72,8 +69,11 @@ export default class TruliooClient {
       const deconstructedResult = await response.json();
       const accessToken = deconstructedResult.accessToken;
       this.accessToken = accessToken;
-    } catch (err) {
-      console.error('Something went wrong during access token generation', err);
+    } catch (error) {
+      this.errorHandler(
+        error,
+        'Something went wrong during access token generation'
+      );
     }
   }
 
@@ -84,14 +84,20 @@ export default class TruliooClient {
   }
 
   loadEmbedID() {
-    const url = `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`;
     const element = document.createElement('iframe');
     element.setAttribute('id', 'embedid-module');
-    element.setAttribute('src', url);
+    element.setAttribute(
+      'src',
+      `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
+    );
     const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
     truliooEmbedIDContainer.appendChild(element);
     const embedIDModule = document.getElementById('embedid-module');
-
     this.addBasicIframeStyles(embedIDModule);
+  }
+
+  errorHandler(error, errorMsg) {
+    // TODO - replace the div with error component
+    console.error(errorMsg, error);
   }
 }
