@@ -67,7 +67,7 @@ export default class TruliooClient {
         method: 'POST'
       });
       const deconstructedResult = await response.json();
-      if (response.status !== 200) {
+      if (response && response.status >= 400) {
         throw new Error(deconstructedResult.error || deconstructedResult);
       }
       const accessToken = deconstructedResult.accessToken;
