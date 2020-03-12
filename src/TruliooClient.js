@@ -10,17 +10,18 @@ export default class TruliooClient {
       ? `${this.accessTokenURL}/trulioo-api/embedids/tokens`
       : `${window.location.origin}/trulioo-api/embedids/tokens`;
 
-    try {
-      this.registerEvents();
-      this.injectAccessToken().then(() => {
-        this.loadEmbedID();
-      });
-    } catch (error) {
-      this.errorHandler(
-        error,
-        'Something went wrong during EmbedID form initialization'
-      );
-    }
+    (async () => {
+      try {
+        this.registerEvents();
+        await this.injectAccessToken();
+        await this.loadEmbedID();
+      } catch (error) {
+        this.errorHandler(
+          error,
+          'Something went wrong during EmbedID form initialization'
+        );
+      }
+    })();
   }
 
   /**
@@ -77,6 +78,7 @@ export default class TruliooClient {
         error,
         'Something went wrong during access token generation'
       );
+      throw error;
     }
   }
 

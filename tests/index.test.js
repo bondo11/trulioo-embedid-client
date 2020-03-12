@@ -80,6 +80,11 @@ describe('TruliooClient', () => {
 
       it('should load iframe', async () => {
         await waitForExpect(() => {
+          const iFrames = document.getElementsByTagName('iframe');
+          expect(iFrames).toHaveLength(1);
+        });
+
+        await waitForExpect(() => {
           expect(document.getElementById('embedid-module').src).toMatch(
             `${embedIDURL}/${publicKey}/at/${accessToken}`
           );
@@ -129,6 +134,24 @@ describe('TruliooClient', () => {
               'Something went wrong during access token generation',
               new Error(errorMessage)
             );
+          });
+
+          await waitForExpect(() => {
+            expect(console.error).toHaveBeenCalledWith(
+              'Something went wrong during EmbedID form initialization',
+              new Error(errorMessage)
+            );
+          });
+        });
+
+        it('should not create iframe for embedid form', async () => {
+          await waitForExpect(() => {
+            const iFrames = document.getElementsByTagName('iframe');
+            expect(iFrames).toHaveLength(0);
+          });
+
+          await waitForExpect(() => {
+            expect(document.getElementById('embedid-module')).toBeNull();
           });
         });
       });
