@@ -91,6 +91,7 @@ export default class TruliooClient {
   loadEmbedID() {
     const element = document.createElement('iframe');
     element.setAttribute('id', 'embedid-module');
+    element.setAttribute('allow', 'camera');
     element.setAttribute(
       'src',
       `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
