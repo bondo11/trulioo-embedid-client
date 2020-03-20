@@ -28,4 +28,13 @@ new TruliooClient({
     handleResponse
 });
 ```
+
 Have a look at the [example.html](./example.html) file.
+
+# Pull Request
+
+Must update the main.js prior pull request to master
+
+```
+npm run webpack-release
+```
