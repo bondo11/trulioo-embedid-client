@@ -89,12 +89,16 @@ export default class TruliooClient {
   }
 
   loadEmbedID() {
+    let experienceUrl = `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`;
+    if(this.internalCustomerId) {
+      experienceUrl = experienceUrl.concat(`?internalCustomerId=${this.internalCustomerId.replace(/[^0-9A-Z-]+/gi,"")}`)
+    }
     const element = document.createElement('iframe');
     element.setAttribute('id', 'embedid-module');
     element.setAttribute('allow', 'camera');
     element.setAttribute(
       'src',
-      `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`
+      experienceUrl
     );
     const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
     truliooEmbedIDContainer.appendChild(element);
