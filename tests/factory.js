@@ -6,6 +6,12 @@ export default {
     string: () => {
       return chance.string();
     },
+    url: () => {
+      return chance.url();
+    },
+    guidToken: () => {
+      return chance.guid().replace(/-/g, '');
+    },
     errorStatus: () => {
       return chance.integer({
         min: 400,

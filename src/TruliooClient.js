@@ -63,16 +63,18 @@ export default class TruliooClient {
    */
   async injectAccessToken() {
     try {
-      const originURL = `${this.accessTokenURL}/${this.publicKey}`;
-      const response = await fetch(originURL, {
-        method: 'POST'
-      });
-      const deconstructedResult = await response.json();
-      if (response && response.status >= 400) {
-        throw new Error(deconstructedResult.error || deconstructedResult);
+      if (!this.accessToken) {
+        const originURL = `${this.accessTokenURL}/${this.publicKey}`;
+        const response = await fetch(originURL, {
+          method: 'POST'
+        });
+        const deconstructedResult = await response.json();
+        if (response && response.status >= 400) {
+          throw new Error(deconstructedResult.error || deconstructedResult);
+        }
+        const accessToken = deconstructedResult.accessToken;
+        this.accessToken = accessToken;
       }
-      const accessToken = deconstructedResult.accessToken;
-      this.accessToken = accessToken;
     } catch (error) {
       this.errorHandler(
         error,
@@ -89,17 +91,18 @@ export default class TruliooClient {
   }
 
   loadEmbedID() {
-    let experienceUrl = `${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`;
-    if(this.internalCustomerId) {
-      experienceUrl = experienceUrl.concat(`?internalCustomerId=${this.internalCustomerId.replace(/[^0-9A-Z-]+/gi,"")}`)
+    let experienceUrl = new URL(`${this.embedIDURL}/${this.publicKey}/at/${this.accessToken}`);
+    if (this.internalCustomerId) {
+      experienceUrl.searchParams.append('internalCustomerId', this.internalCustomerId.replace(/[^0-9A-Z-]+/gi,""));
     }
+    if (this.experienceTransactionId) {
+      experienceUrl.searchParams.append('experienceTransactionId', this.experienceTransactionId);
+    }
+
     const element = document.createElement('iframe');
     element.setAttribute('id', 'embedid-module');
     element.setAttribute('allow', 'camera');
-    element.setAttribute(
-      'src',
-      experienceUrl
-    );
+    element.setAttribute('src', experienceUrl);
     const truliooEmbedIDContainer = document.getElementById('trulioo-embedid');
     truliooEmbedIDContainer.appendChild(element);
     const embedIDModule = document.getElementById('embedid-module');
