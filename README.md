@@ -2,10 +2,10 @@
 
 [![Github](https://github.com/trulioo/trulioo-embedid-client/workflows/Build/badge.svg)](https://github.com/trulioo/trulioo-embedid-client/workflows/Build/badge.svg)
 
-Can be included as a CDN:
+To include this package via CDN, use this line of code:
 
 ```
-<script type="text/javascript" src="https://js.trulioo.com/v0.0.1-beta/main.js"></script>
+<script type="text/javascript" src="https://js.trulioo.com/latest/main.js"></script>
 ```
 
 JavaScript library which streamlines integration with Trulioo.
